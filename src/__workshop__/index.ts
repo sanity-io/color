@@ -10,5 +10,10 @@ export default defineScope({
       title: 'Overview',
       component: lazy(() => import('./overview')),
     },
+    {
+      name: 'tool',
+      title: 'Tool',
+      component: lazy(() => import('./tool')),
+    },
   ],
 })
