@@ -45,8 +45,8 @@ importers:
         specifier: ^6.8.6
         version: 6.8.6(@types/node@20.12.2)(typescript@5.4.5)
       '@sanity/semantic-release-preset':
-        specifier: ^4.1.7
-        version: 4.1.7(semantic-release@23.0.8)
+        specifier: ^5.0.0
+        version: 5.0.0(semantic-release@23.0.8)
       '@sanity/ui':
         specifier: ^2.1.4
         version: 2.1.4(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(styled-components@6.1.8)
@@ -1554,16 +1554,16 @@ packages:
       - supports-color
     dev: true
 
-  /@sanity/semantic-release-preset@4.1.7(semantic-release@23.0.8):
-    resolution: {integrity: sha512-cj78W8G2Y34V3zivvW5YrPKCtLQ/dd+y62M0Gg9Zl+xH3O+srtzbINrsD5qe+27en05B7gYv5CAjoWoWCq2y9w==}
+  /@sanity/semantic-release-preset@5.0.0(semantic-release@23.0.8):
+    resolution: {integrity: sha512-2lCuU57OZW6WY7O8d4vjbpghQIc9lnxS9+dLnzrBYh8e6pA467DxlCNum4NgDeDyHxNh9HGXNalXEWJz8tec+A==}
     engines: {node: '>= 20.8'}
     peerDependencies:
-      semantic-release: ^22.0.12 || ^23.0.2
+      semantic-release: ^24
     dependencies:
       '@semantic-release/changelog': 6.0.3(semantic-release@23.0.8)
       '@semantic-release/exec': 6.0.3(semantic-release@23.0.8)
       '@semantic-release/git': 10.0.1(semantic-release@23.0.8)
-      conventional-changelog-conventionalcommits: 7.0.2
+      conventional-changelog-conventionalcommits: 8.0.0
       semantic-release: 23.0.8(typescript@5.4.5)
       semantic-release-license: 1.0.3
     transitivePeerDependencies:
@@ -2927,6 +2927,13 @@ packages:
   /conventional-changelog-conventionalcommits@7.0.2:
     resolution: {integrity: sha512-NKXYmMR/Hr1DevQegFB4MwfM5Vv0m4UIxKZTTYuD98lpTknaZlSRrDOG4X7wIXpGkfsYxZTghUN+Qq+T0YQI7w==}
     engines: {node: '>=16'}
+    dependencies:
+      compare-func: 2.0.0
+    dev: true
+
+  /conventional-changelog-conventionalcommits@8.0.0:
+    resolution: {integrity: sha512-eOvlTO6OcySPyyyk8pKz2dP4jjElYunj9hn9/s0OB+gapTO8zwS9UQWrZ1pmF2hFs3vw1xhonOLGcGjy/zgsuA==}
+    engines: {node: '>=18'}
     dependencies:
       compare-func: 2.0.0
     dev: true
