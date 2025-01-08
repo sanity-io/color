@@ -34,7 +34,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
-    "@sanity/pkg-utils": "^6.8.6",
+    "@sanity/pkg-utils": "^6.13.4",
     "commitlint": "^19.3.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0",
