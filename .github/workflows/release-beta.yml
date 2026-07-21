@@ -28,7 +28,7 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
 
       # Publish to NPM on new releases
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         if: ${{ steps.release.outputs.releases_created }}
       - uses: pnpm/action-setup@v2
         if: ${{ steps.release.outputs.releases_created }}
