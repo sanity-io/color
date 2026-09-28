@@ -1,4 +1,8 @@
-import {COLOR_HUES, COLOR_TINTS, HSL, config, hslToRgb} from '@sanity/color'
+/** Entry point for Figma plugin */
+
+/// <reference types="@figma/plugin-typings" />
+
+import {COLOR_HUES, COLOR_TINTS, config, HSL, hslToRgb} from '@sanity/color'
 
 interface VariableNode {
   variable: Variable
@@ -7,21 +11,32 @@ interface VariableNode {
 
 figma.showUI(__html__)
 
-figma.ui.onmessage = (msg) => {
+// Calls to "parent.postMessage" from within the HTML page will trigger this
+// callback. The callback will be passed the "pluginMessage" property of the
+// posted message.
+// oxlint-disable-next-line prefer-add-event-listener
+figma.ui.onmessage = async (msg) => {
   if (msg.type === 'variables:sync') {
-    const localVariableCollections = figma.variables.getLocalVariableCollections()
+    const localVariableCollections = await figma.variables.getLocalVariableCollectionsAsync()
 
-    for (const collection of localVariableCollections) {
-      const variables: VariableNode[] = []
+    const collectionVariables = await Promise.all(
+      localVariableCollections.map(async (collection) => {
+        const variables = await Promise.all(
+          collection.variableIds.map((variableId) =>
+            figma.variables.getVariableByIdAsync(variableId),
+          ),
+        )
 
-      for (const variableId of collection.variableIds) {
-        const variable = figma.variables.getVariableById(variableId)
-
-        if (variable) {
-          variables.push({variable, name: variable.name})
+        return {
+          collection,
+          variables: variables.flatMap<VariableNode>((variable) =>
+            variable ? [{variable, name: variable.name}] : [],
+          ),
         }
-      }
+      }),
+    )
 
+    for (const {collection, variables} of collectionVariables) {
       _syncFigmaColorVariable({
         collection,
         hsl: config.black.hsl,
@@ -56,7 +71,7 @@ figma.ui.onmessage = (msg) => {
   }
 
   if (msg.type === 'styles:sync') {
-    const localStyles = figma.getLocalPaintStyles()
+    const localStyles = await figma.getLocalPaintStylesAsync()
 
     // black
     _syncFigmaColor({
@@ -91,6 +106,8 @@ figma.ui.onmessage = (msg) => {
     }
   }
 
+  // Make sure to close the plugin when you're done. Otherwise the plugin will
+  // keep running, which shows the cancel button at the bottom of the screen.
   figma.closePlugin()
 }
 
@@ -132,6 +149,7 @@ function _syncFigmaColorVariable(options: {
   }
 
   if (node) {
+    // oxlint-disable-next-line no-console
     console.log('update', name)
 
     node.variable.setValueForMode(modeId, {
@@ -140,9 +158,10 @@ function _syncFigmaColorVariable(options: {
       b: rgb[2] / 255,
     })
   } else {
+    // oxlint-disable-next-line no-console
     console.log('create', name)
 
-    const variable = figma.variables.createVariable(name, collection.id, 'COLOR')
+    const variable = figma.variables.createVariable(name, collection, 'COLOR')
 
     variable.setValueForMode(modeId, {
       r: rgb[0] / 255,
