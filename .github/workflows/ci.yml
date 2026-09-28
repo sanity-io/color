@@ -1,18 +1,11 @@
----
 name: CI
 
 on:
+  # Build on pushes branches that have a PR (including drafts)
   pull_request:
-    types: [opened, synchronize]
+  # Build on commits pushed to the default branch
   push:
-    branches:
-      - main
-      - alpha
-      - beta
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
+    branches: [main]
 
 permissions:
   contents: read # for checkout
@@ -20,57 +13,66 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v4
-        with:
-          cache: pnpm
-          node-version: lts/*
-      - run: corepack enable && pnpm --version
-      - run: pnpm install --ignore-scripts
-      - run: pnpm build --filter=./packages/*
-      - run: pnpm lint
-      - run: pnpm test
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: pnpm lint --format github
+      - run: pnpm build
+
+  knip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - name: Run Knip
+        run: pnpm knip --reporter github-actions
 
   test:
-    needs: build
-    timeout-minutes: 15
+    needs: [build]
+    runs-on: ${{ matrix.os }}
+    name: Test ${{ matrix.runtime }} / ${{ matrix.os }}
     strategy:
-      # A test failing on windows doesn't mean it'll fail on macos. It's useful to let all tests run to its completion to get the full picture
       fail-fast: false
       matrix:
-        # https://nodejs.org/en/about/releases/
-        # https://pnpm.io/installation#compatibility
-        # @TODO re-enable `current` once it recovers
-        # node: [lts/-1, lts/*, current]
-        node: [lts/-1, lts/*]
         os: [ubuntu-latest]
-        # Also test the LTS on mac and windows
+        runtime: [node@lts]
         include:
           - os: macos-latest
-            node: lts/*
-          # - os: windows-latest
-          #   node: lts/*
-    runs-on: ${{ matrix.os }}
-    env:
-      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+            runtime: node@lts
     steps:
-      # It's only necessary to do this for windows, as mac and ubuntu are sane OS's that already use LF
-      - if: matrix.os == 'windows-latest'
-        run: |
-          git config --global core.autocrlf false
-          git config --global core.eol lf
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
         with:
-          cache: pnpm
-          node-version: ${{ matrix.node }}
-      - run: corepack enable && pnpm --version
-      - run: pnpm install --loglevel=error --ignore-scripts
+          runtime: ${{ matrix.runtime }}
       - run: pnpm test
+
+  storybook-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - name: Store Playwright's version
+        id: playwright-version
+        run: |
+          PLAYWRIGHT_VERSION=$(pnpm --filter sanity-color-storybook exec playwright --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+          echo "Playwright's version: $PLAYWRIGHT_VERSION"
+          echo "version=${PLAYWRIGHT_VERSION}" >> "$GITHUB_OUTPUT"
+      - name: Cache Playwright browsers for Playwright's version
+        id: cache-playwright-browsers
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ steps.playwright-version.outputs.version }}-playwright-browsers-chromium
+      - name: Install Playwright browsers
+        if: steps.cache-playwright-browsers.outputs.cache-hit != 'true'
+        run: pnpm --filter sanity-color-storybook exec playwright install --with-deps chromium
+      - name: Install Playwright system deps (cache hit)
+        if: steps.cache-playwright-browsers.outputs.cache-hit == 'true'
+        run: pnpm --filter sanity-color-storybook exec playwright install-deps chromium
+      - run: pnpm test:browser
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: vitest-failure-screenshots
+          path: apps/storybook/**/__screenshots__/
+          if-no-files-found: ignore

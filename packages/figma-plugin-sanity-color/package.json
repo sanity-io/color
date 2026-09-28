@@ -2,35 +2,35 @@
   "name": "figma-plugin-sanity-color",
   "version": "1.0.0",
   "private": true,
-  "description": "Figma plugin for syncing from `@sanity/color` to color variables in Figma.",
+  "description": "Figma plugin for syncing from `@sanity/color` to color styles and variables in Figma.",
   "license": "MIT",
   "author": "Sanity.io <hello@sanity.io>",
-  "type": "commonjs",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": {
-      "source": "./src/index.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "default": "./dist/index.js"
-    },
+    ".": "./src/index.ts",
     "./package.json": "./package.json"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist",
-    "manifest.json",
-    "src"
-  ],
+  "publishConfig": {
+    "exports": {
+      ".": "./dist/index.js",
+      "./package.json": "./package.json"
+    }
+  },
   "scripts": {
-    "build": "rm -rf dist && pkg build --strict",
-    "watch": "pkg watch --strict"
+    "build": "tsdown",
+    "watch": "tsdown --watch"
   },
   "devDependencies": {
-    "@figma/plugin-typings": "^1.90.0",
+    "@figma/plugin-typings": "^1.139.0",
     "@sanity/color": "workspace:*",
-    "@sanity/pkg-utils": "^6.8.6",
-    "typescript": "5.5.3"
+    "@sanity/tsdown-config": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "unrun": "catalog:"
   }
 }
