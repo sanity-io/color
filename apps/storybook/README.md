@@ -1,6 +1,7 @@
 # @sanity/color Storybook
 
-Storybook for the [`@sanity/color`](../../packages/@sanity/color) palette:
+Storybook for the [`@sanity/color`](../../packages/@sanity/color) palette. Its stories live in
+`stories/tokens`, as in sanity-io/ui's Storybook:
 
 - **Colors** – the full palette, with WCAG contrast badges. Click a swatch to copy its hex value.
 - **ColorTool** – an interactive editor for designing the palette. Enable `showCode` to get a

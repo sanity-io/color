@@ -29,7 +29,7 @@ const preview: Preview = {
     layout: 'fullscreen',
     options: {
       storySort: {
-        order: ['Colors', 'ColorTool', '*'],
+        order: ['tokens', ['Colors', 'ColorTool'], '*'],
       },
     },
   },
