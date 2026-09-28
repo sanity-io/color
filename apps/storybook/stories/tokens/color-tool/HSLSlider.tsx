@@ -39,8 +39,12 @@ function clamp(value: number, min: number, max: number) {
 }
 
 /** Vertical slider with draggable handles for each HSL channel + a hex input */
-export function HSLSlider(props: {onChange: (hsl: HSL) => void; value: HSL}): ReactNode {
-  const {onChange, value} = props
+export function HSLSlider(props: {
+  onChange: (hsl: HSL) => void
+  tintName: string
+  value: HSL
+}): ReactNode {
+  const {onChange, tintName, value} = props
   const [h, s, l] = value
   const hexValue = rgbToHex(hslToRgb(value))
   const wrapperRef = useRef<HTMLDivElement | null>(null)
@@ -68,6 +72,7 @@ export function HSLSlider(props: {onChange: (hsl: HSL) => void; value: HSL}): Re
           color={CHANNEL_COLORS.h}
           label={`H=${h}`}
           max={360}
+          name={`Hue for ${tintName}`}
           onChange={(next) => onChange([next, s, l])}
           value={h}
           wrapperRef={wrapperRef}
@@ -76,6 +81,7 @@ export function HSLSlider(props: {onChange: (hsl: HSL) => void; value: HSL}): Re
           color={CHANNEL_COLORS.s}
           label={`S=${s}`}
           max={100}
+          name={`Saturation for ${tintName}`}
           onChange={(next) => onChange([h, next, l])}
           value={s}
           wrapperRef={wrapperRef}
@@ -84,6 +90,7 @@ export function HSLSlider(props: {onChange: (hsl: HSL) => void; value: HSL}): Re
           color={CHANNEL_COLORS.l}
           label={`L=${l}`}
           max={100}
+          name={`Lightness for ${tintName}`}
           onChange={(next) => onChange([h, s, next])}
           value={l}
           wrapperRef={wrapperRef}
@@ -126,11 +133,13 @@ function SliderHandle(props: {
   color: string
   label: string
   max: number
+  /** Stable accessible name; the changing value is exposed through `aria-valuenow` */
+  name: string
   onChange: (value: number) => void
   value: number
   wrapperRef: RefObject<HTMLDivElement | null>
 }) {
-  const {color, label, max, onChange, value, wrapperRef} = props
+  const {color, label, max, name, onChange, value, wrapperRef} = props
   const top = (value / max) * SLIDER_H
 
   // Pointer-y distance from the handle center at grab time, applied while
@@ -198,7 +207,7 @@ function SliderHandle(props: {
     <Tooltip content={<Code size={1}>{label}</Code>} padding={2} placement="top" portal>
       <Handle
         $color={color}
-        aria-label={label}
+        aria-label={name}
         aria-orientation="vertical"
         aria-valuemax={max}
         aria-valuemin={0}

@@ -59,6 +59,7 @@ export function ColorSwatchesEditor(props: {
               <HSLSlider
                 key={t.key}
                 onChange={(hsl) => dispatch({type: 'swatch/update', hue, tint: t.key, hsl})}
+                tintName={`${hue} ${t.key}`}
                 value={t.hsl}
               />
             ))}
