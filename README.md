@@ -6,10 +6,10 @@ Published packages live under `packages/`. The Storybook lives under `apps/`.
 
 ## Packages
 
-| Package                                             | Description                                  |
-| --------------------------------------------------- | -------------------------------------------- |
-| [`@sanity/color`](packages/color)                   | Color palette                                |
-| [`figma-plugin-sanity-color`](packages/figma-color) | Figma plugin for the `@sanity/color` palette |
+| Package                                                           | Description                                  |
+| ----------------------------------------------------------------- | -------------------------------------------- |
+| [`@sanity/color`](packages/@sanity/color)                         | Color palette                                |
+| [`figma-plugin-sanity-color`](packages/figma-plugin-sanity-color) | Figma plugin for the `@sanity/color` palette |
 
 ## Apps
 

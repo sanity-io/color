@@ -4,14 +4,16 @@
 
 This is the `@sanity/color` repository, structured as a pnpm monorepo: the
 published `@sanity/color` package (the Sanity color palette) lives in
-`packages/color`, the Figma plugin that syncs the palette to Figma color styles
-and variables in `packages/figma-color`, and the Storybook app in
-`apps/storybook` (`pnpm-workspace.yaml`). The root `package.json` is a private
-workspace root whose scripts orchestrate via pnpm filters. Package manager is
-pnpm (`packageManager` pin in `package.json`); developing in this repo requires
-Node `>=22.13`. The tooling mirrors the
+`packages/@sanity/color`, the Figma plugin that syncs the palette to Figma color
+styles and variables in `packages/figma-plugin-sanity-color`, and the Storybook
+app in `apps/storybook` (`pnpm-workspace.yaml`). The root `package.json` is a
+private workspace root whose scripts orchestrate via pnpm filters. Package
+manager is pnpm (`packageManager` pin in `package.json`); developing in this
+repo requires Node `>=22.13`. The tooling mirrors the
 [sanity-io/ui](https://github.com/sanity-io/ui) monorepo, so keep dependency
-versions, lint/format config and CI workflows in step with it.
+versions, lint/format config and CI workflows in step with it. The package
+folders keep this repo's names; in sanity-io/ui the same packages lived in
+`packages/color` and `packages/figma-color`.
 
 Standard scripts live in the root `package.json` (`lint`, `test`, `build`,
 `dev`). Notes that are not obvious from the scripts:
@@ -32,9 +34,10 @@ Standard scripts live in the root `package.json` (`lint`, `test`, `build`,
   `@sanity/color` resolves directly to TypeScript source through its dev
   `exports`; the publishable `exports` (dist `import`/`require`) live under
   `publishConfig` and are applied by `pnpm pack`/`publish`.
-- `packages/color/src/color.ts` is generated from `packages/color/src/config.ts`:
-  regenerate it with `pnpm --filter @sanity/color generate` after changing the
-  palette config; never edit it by hand.
+- `packages/@sanity/color/src/color.ts` is generated from
+  `packages/@sanity/color/src/config.ts`: regenerate it with
+  `pnpm --filter @sanity/color generate` after changing the palette config;
+  never edit it by hand.
 - `pnpm test` runs the `@sanity/color` unit tests with vitest against source,
   so no build is required first.
 - `pnpm dev` starts Storybook (`apps/storybook`) on http://localhost:6006. It

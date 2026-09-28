@@ -1,14 +1,14 @@
 # @sanity/color Storybook
 
-Storybook for the [`@sanity/color`](../../packages/color) palette:
+Storybook for the [`@sanity/color`](../../packages/@sanity/color) palette:
 
 - **Colors** – the full palette, with WCAG contrast badges. Click a swatch to copy its hex value.
 - **ColorTool** – an interactive editor for designing the palette. Enable `showCode` to get a
-  `packages/color/src/config.ts` snippet of the edited palette, then regenerate `src/color.ts` with
-  `pnpm --filter @sanity/color generate`.
+  `packages/@sanity/color/src/config.ts` snippet of the edited palette, then regenerate
+  `src/color.ts` with `pnpm --filter @sanity/color generate`.
 
-`@sanity/color` resolves to the package source, so edits to `packages/color/src` hot-reload without a
-rebuild. The stories are built with the published [`@sanity/ui`](https://www.npmjs.com/package/@sanity/ui).
+`@sanity/color` resolves to the package source, so edits to `packages/@sanity/color/src` hot-reload
+without a rebuild. The stories are built with the published [`@sanity/ui`](https://www.npmjs.com/package/@sanity/ui).
 
 ## Storybook guidelines
 

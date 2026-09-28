@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.settings.json",
+  "extends": "../../../tsconfig.settings.json",
   "include": ["./scripts", "./src", "./tsdown.config.mts"],
   "compilerOptions": {
     "rootDir": ".",

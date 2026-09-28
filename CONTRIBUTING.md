@@ -1,9 +1,9 @@
 # Contributing guidelines
 
 This repository is a pnpm monorepo. The published `@sanity/color` package lives
-in [`packages/color`](packages/color), the Figma plugin lives in
-[`packages/figma-color`](packages/figma-color), and the Storybook lives in
-[`apps/storybook`](apps/storybook).
+in [`packages/@sanity/color`](packages/@sanity/color), the Figma plugin lives in
+[`packages/figma-plugin-sanity-color`](packages/figma-plugin-sanity-color), and
+the Storybook lives in [`apps/storybook`](apps/storybook).
 
 ## Getting started
 
@@ -14,14 +14,14 @@ pnpm test
 ```
 
 Run `pnpm dev` to start Storybook (http://localhost:6006). Storybook resolves
-`@sanity/color` from the package source, so edits to `packages/color/src`
-hot-reload without a rebuild.
+`@sanity/color` from the package source, so edits to
+`packages/@sanity/color/src` hot-reload without a rebuild.
 
 ## Changing the palette
 
-The palette is defined in `packages/color/src/config.ts`, and
-`packages/color/src/color.ts` is generated from it. Never edit `color.ts` by
-hand: update `config.ts`, then regenerate it with
+The palette is defined in `packages/@sanity/color/src/config.ts`, and
+`packages/@sanity/color/src/color.ts` is generated from it. Never edit
+`color.ts` by hand: update `config.ts`, then regenerate it with
 `pnpm --filter @sanity/color generate`.
 
 The `ColorTool` story in Storybook is an interactive editor for the palette.
@@ -31,8 +31,8 @@ palette, ready to paste into the package.
 ## Testing
 
 Unit tests are written with [vitest](https://vitest.dev) and live next to the
-source in `packages/color/src`. Run them with `pnpm test` (or `pnpm test:watch`
-in the package for watch mode). They run against the package source, so no
+source in `packages/@sanity/color/src`. Run them with `pnpm test` (or
+`pnpm test:watch` in the package for watch mode). They run against the package source, so no
 build is required.
 
 Browser tests live in the Storybook app (`apps/storybook`) and use

@@ -3,7 +3,7 @@
   "workspaces": {
     ".": {},
     "apps/storybook": {},
-    "packages/color": {
+    "packages/@sanity/color": {
       // The palette generator is invoked via the package's `generate` script,
       // not imported by application code
       "entry": ["scripts/generate.ts"],

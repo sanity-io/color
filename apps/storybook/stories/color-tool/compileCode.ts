@@ -3,7 +3,7 @@ import {ColorHueKey, config} from '@sanity/color'
 import {ColorToolSwatch} from './types'
 
 /**
- * Compiles the edited palette into the source of `packages/color/src/config.ts`,
+ * Compiles the edited palette into the source of `packages/@sanity/color/src/config.ts`,
  * so a new palette can be pasted straight into the package.
  */
 export function compileCode(palette: {hue: ColorHueKey; swatches: ColorToolSwatch[]}[]): string {

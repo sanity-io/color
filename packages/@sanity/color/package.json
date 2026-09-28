@@ -16,7 +16,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sanity-io/color.git",
-    "directory": "packages/color"
+    "directory": "packages/@sanity/color"
   },
   "files": [
     "dist"
@@ -42,7 +42,7 @@
   "scripts": {
     "build": "tsdown",
     "clean": "rimraf dist",
-    "generate": "unrun scripts/generate.ts && pnpm --workspace-root exec oxfmt packages/color/src/color.ts",
+    "generate": "unrun scripts/generate.ts && pnpm --workspace-root exec oxfmt packages/@sanity/color/src/color.ts",
     "prepack": "pnpm build",
     "test": "vitest run",
     "test:watch": "vitest",
