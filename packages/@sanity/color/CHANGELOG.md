@@ -1,5 +1,11 @@
 # @sanity/color
 
+## 3.0.9
+
+### Patch Changes
+
+- [#179](https://github.com/sanity-io/color/pull/179) [`0650f3a`](https://github.com/sanity-io/color/commit/0650f3afb58ea9cd23ce6e779362223d1bb8e506) Thanks [@stipsan](https://github.com/stipsan)! - `@sanity/color` is developed and published from the [sanity-io/color](https://github.com/sanity-io/color) repository again (`packages/@sanity/color`), moved back from the [sanity-io/ui](https://github.com/sanity-io/ui) monorepo. The package is still built with tsdown and released with changesets. The public API is unchanged.
+
 ## 3.0.8
 
 ### Patch Changes
