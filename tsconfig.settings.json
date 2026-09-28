@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
+    "target": "ESNext",
     "module": "Preserve",
     "moduleDetection": "force",
-    "jsx": "preserve",
-    "target": "ES2022",
+    "allowSyntheticDefaultImports": true,
     "declaration": true,
     "declarationMap": true,
+    "jsx": "preserve",
 
     // Strict type-checking
     "strict": true,
@@ -21,7 +22,6 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true
+    "skipLibCheck": true
   }
 }
