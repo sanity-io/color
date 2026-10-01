@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@sanity/color": "workspace:*",
-    "@sanity/ui": "^4.2.7",
+    "@sanity/ui": "^4.3.0",
     "@storybook/addon-a11y": "^10.6.0",
     "@storybook/addon-docs": "^10.6.0",
     "@storybook/addon-links": "^10.6.0",
