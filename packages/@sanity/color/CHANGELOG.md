@@ -1,5 +1,11 @@
 # @sanity/color
 
+## 3.0.10
+
+### Patch Changes
+
+- [#194](https://github.com/sanity-io/color/pull/194) [`4079f8e`](https://github.com/sanity-io/color/commit/4079f8edadc0aa1c35938c89b52a7ad380d500af) Thanks [@squiggler-app](https://github.com/apps/squiggler-app)! - fix(deps): update dependency tsdown to ^0.23.1
+
 ## 3.0.9
 
 ### Patch Changes
